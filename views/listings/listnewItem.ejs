@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Listing</title>
+  <link rel="stylesheet" href="/css/new.css">
+</head>
+<body>
+  <h1>CREATE NEW LISTING HERE!</h1>
+
+  <!-- Success / Failure Messages -->
+  <div id="message" class="hidden"></div>
+
+  <form id="listingForm" action="/listings" method="POST">
+    <div>
+      <label for="title" class="label">Title</label>
+      <input type="text" name="title" id="title" placeholder="title" required minlength="3" maxlength="50">
+    </div>
+
+    <div>
+      <label for="description" class="label">Description</label>
+      <textarea name="description" id="description" placeholder="description" required minlength="10" maxlength="200"></textarea>
+    </div>
+
+    <div>
+      <label for="image" class="label">Image URL</label>
+      <input type="url" name="image" id="image" placeholder="https://example.com/image.jpg" required>
+    </div>
+
+    <div>
+      <label for="price" class="label">Price (₹)</label>
+      <input  type="number"   name="price" id="price" placeholder="price" required >
+    </div>  
+    <!-- min="1" max="100000" -->
+
+    <div>
+      <label for="location" class="label">Location</label>
+      <input type="text" name="location" id="location" placeholder="location" required>
+    </div>
+
+    <div>
+      <label for="country" class="label">Country</label>
+      <input type="text" name="country" id="country" placeholder="country" required pattern="[A-Za-z\s]+">
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  
+</body>
+</html>

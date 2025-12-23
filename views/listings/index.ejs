@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listings</title>
+  <link rel="stylesheet" href="/css/style.css"> <!-- link to your CSS -->
+</head>
+<body>
+  <% layout("/layouts/boilerplate.ejs")%>
+  <h1>All Listings</h1>
+  
+  <div class="listing-container">
+
+
+    <% allisting.forEach(listing => { %>
+      <div class="card">
+<div class="overlay">    <a href="listings/<%=listing._id%>"> <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="card-img"></a>   
+</div>        <div class="card-body">
+          <h2 class="card-title"><%= listing.title %></h2>
+          <p class="card-desc"><%= listing.description %></p>
+          <p class="card-location">📍 <%= listing.location %>, <%= listing.country %></p>
+          <p class="card-price">💰 &#8377;<%= listing.price.toLocaleString("en-IN") %></p>
+          <small class="card-date">Created: <%= listing.created_at.toDateString() %></small>
+            <form action="listings/<%=listing._id%>"  method="GET">
+            <button>view</button>
+          </form>
+          <form action="listings/<%=listing._id%>/edit" method="GET">
+            <button>edit</button>
+          </form>
+           <form action="listings/<%=listing._id%>?_method=DELETE" method="POST">
+            <button>delete</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+    
+  </div>
+</body>
+</html>

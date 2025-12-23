@@ -1,0 +1,62 @@
+/* navbar.css */
+
+/* Make navbar fixed at top */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 93%;
+  z-index: 1000;
+  padding:10px;
+  gap:100px;
+ 
+
+  margin:20px;
+  border-radius:10px;
+
+  /* Blur background (glassmorphism) */
+  background: rgba(24, 121, 219, 0.7); /* dark with transparency */
+  backdrop-filter: blur(10px);
+
+  /* Smooth transition when scrolling */
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Add shadow for depth */
+.navbar.scrolled {
+  background: rgba(23, 127, 232, 0.9);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #cf3926ff !important; /* modern cyan accent */
+}
+
+/* Nav links */
+.nav-link {
+  color: #f8f9fa !important;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #00d4ff !important;
+}
+
+/* Search button */
+.btn-outline-success {
+  border-color: #00d4ff;
+  color: #00d4ff;
+}
+
+.btn-outline-success:hover {
+  background-color: #00d4ff;
+  color: #fff;
+}
+.container-fluid{
+  margin-left:100px;
+  
+}
+

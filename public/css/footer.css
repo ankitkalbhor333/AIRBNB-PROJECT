@@ -1,0 +1,31 @@
+/* footer.css */
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
+
+  background: rgba(33, 37, 41, 0.7); /* dark transparent */
+  backdrop-filter: blur(8px);
+  color: #f8f9fa;
+  text-align: center;
+  padding: 10px 0;
+
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.footer a {
+  color: #00d4ff;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer i {
+  margin-right: 5px;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listings</title>
+  <link rel="stylesheet" href="/css/style.css"> <!-- link to your CSS -->
+</head>
+<body>
+  
+  <h1>All Listings</h1>
+  <div class="listing-container">
+  
+      <div class="card">
+        <img src="<%= singleitems.image.url %>" alt="<%= singleitems.title %>" class="card-img">
+        <div class="card-body">
+          <h2 class="card-title"><%= singleitems.title %></h2>
+          <p class="card-desc"><%= singleitems.description %></p>
+          <p class="card-location">📍 <%= singleitems.location %>, <%= singleitems.country %></p>
+          <p class="card-price">💰 &#8377;<%= singleitems.price.toLocaleString("en-IN") %></p>
+          <small class="card-date">Created: <%= singleitems.created_at.toDateString() %></small>
+        </div>
+        <div>
+        <form action="<%=singleitems._id%>/edit" method="GET">
+            <button>edit</button>
+          </form>
+          <form action="<%=singleitems._id%>?_method=DELETE" method="POST">
+            <button>delete</button>
+          </form>
+        </div>
+      </div>
+   
+  </div>
+</body>
+</html>
