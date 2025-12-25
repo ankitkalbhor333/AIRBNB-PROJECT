@@ -103,3 +103,122 @@ h1 {
   font-size:3rem;
 }
 
+///reviews style
+
+
+/* Container */
+.reviews-section {
+  margin: 24px 0;
+}
+
+.reviews-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* Responsive grid */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* Card */
+.review-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+/* Header */
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff385c 0%, #ff7b91 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+}
+
+/* Meta */
+.meta .name {
+  font-weight: 600;
+  color: #222;
+  line-height: 1.2;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff385c;
+  font-size: 0.95rem;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.stars-fill, .stars-empty {
+  letter-spacing: 1px;
+}
+
+.rating-number {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+/* Comment */
+.comment {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-top: 8px;
+}
+
+/* Footer */
+.review-footer {
+  margin-top: 12px;
+  border-top: 1px dashed #eee;
+  padding-top: 8px;
+}
+
+.date {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* Empty state */
+.no-reviews {
+  color: #666;
+  font-style: italic;
+}
+
+/* Dark mode tweak (optional) */
+@media (prefers-color-scheme: dark) {
+  .review-card {
+    background: #1c1c1c;
+    border-color: #333;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  }
+  .meta .name, .comment { color: #eee; }
+  .date, .rating-number { color: #aaa; }
+}

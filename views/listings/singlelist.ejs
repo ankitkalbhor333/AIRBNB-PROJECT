@@ -29,7 +29,61 @@
           </form>
         </div>
       </div>
-   
+   <div>
+    <h4>leave a review</h4>
+
+  <form action="/listings/<%=singleitems._id%>/reviews" method="POST">
+    <div>
+      <label for="rating">Rating</label>
+      <input type="range" min="1" max="5" id="rating" name="review[rating]">
+    </div>
+    <div>
+      <label for="comment">comment</label>
+      <textarea name="review[comment]" id="comment" cols="30" rows="10" required></textarea>
+    </div>
+    <button>submit</button>
+  </form>
+   </div>
   </div>
+  <div class="reviews-section">
+    <h2>All reviews</h2>
+
+    <div class="reviews-grid">
+      <% if (singleitems && singleitems.reviews && singleitems.reviews.length) { %>
+        <% for (const review of singleitems.reviews) { %>
+          <article class="review-card">
+            <header class="review-header">
+              <div class="avatar"><%= (review.comment?.[0] || 'A').toUpperCase() %></div>
+              <div class="meta">
+                <div class="comment-preview"><%= review.comment %></div>
+                <div class="stars" aria-label="Rating">
+                  <span class="stars-fill"><%= '★'.repeat(review.rating || 0) %></span>
+                  <span class="stars-empty"><%= '☆'.repeat(5 - (review.rating || 0)) %></span>
+                  <span class="rating-number"><%= review.rating %></span>
+                </div>
+              </div>
+            </header>
+
+            <p class="comment"><%= review.comment %></p>
+            <div>
+              <form action="/listings/<%=singleitems._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button>Delete review</button>
+              </form>
+            </div>
+
+            <footer class="review-footer">
+              <time class="date">
+                <%= new Date(review.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+              </time>
+            </footer>
+          </article>
+        <% } %>
+      <% } else { %>
+        <p class="no-reviews">No reviews yet.</p>
+      <% } %>
+    </div>
+  </div>
+  <script src="/js/script.js"></script>
 </body>
 </html>

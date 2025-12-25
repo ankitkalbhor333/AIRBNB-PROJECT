@@ -1,14 +1,20 @@
 import express from "express";
 import mongoose from "mongoose";
 import List from "./models/listing.js";
+import Review from "./models/review.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import methodOverride from "method-override";
 import ejsMate from "ejs-mate";
 import Wrapasync from "./utils/Wrapasync.js";
 import ExpressError from "./utils/Expresserror.js";
-
+// import listingSchema from "./models/listing.js"
+// import {listjoiSchema} from "./schema.js";
+// import {reviewjoiSchema}  from  "./schema.js"
+import listRoutes from "./routes/listing.js"
 const app = express();
+//app.use("/listings/:id/reviews", reviewRoutes);  
+ app.use("/listings", listRoutes);
 
 // Path setup
 const __filename = fileURLToPath(import.meta.url);
@@ -20,10 +26,11 @@ app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
 
 // Middleware
+app.use(methodOverride("_method"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(methodOverride("_method"));
+
 
 // Connect to MongoDB
 async function main() {
@@ -40,99 +47,102 @@ app.get("/", (req, res) => {
   res.send("Root is working");
 });
 
-// Test route
-app.get("/listing", Wrapasync(async (req, res) => {
-  const samplelist = new List({
-    title: "taj hotel",
-    description: "itc taj",
-    image: "",
-    location: "bhopal",
-    price: 12222,
-    country: "india",
-  });
-  await samplelist.save();
-  res.send("✅ Test listing saved");
-}));
 
-// Show all listings
-app.get("/listings", Wrapasync(async (req, res) => {
-  const allListing = await List.find({});
-  res.render("listings/index", { allListing });
-}));
 
-// Create new listing form
-app.get("/listings/addnew", (req, res) => {
-  res.render("listings/listnewItem");
+// const validatelisting=(req,res,next)=>{
+//    const { error } = listjoiSchema.validate(req.body);
+//   if (error) {
+//     // Throw validation error to be caught by error middleware
+//     let errMsg=error.details.map((el)=>el.message).join(",");
+//     throw new ExpressError(400, errMsg);
+//   }else{
+//     next()
+//   }
+// }
+// const validateReview=(req,res,next)=>{
+//    const { error } = reviewjoiSchema.validate(req.body);
+//   if (error) {
+//     // Throw validation error to be caught by error middleware
+//     let errMsg=error.details.map((el)=>el.message).join(",");
+//     throw new ExpressError(400, errMsg);
+//   }else{
+//     next()
+//   }
+// }
+
+
+
+
+
+
+
+
+//review post rewquest handling
+app.post("/listings/:id/reviews", async (req, res) => {
+  try {
+    const list = await List.findById(req.params.id); // ✅ use req.params.id
+    if (!list) {
+      return res.status(404).send("Listing not found");
+    }
+
+    const newReview = new Review(req.body.review);
+    console.log(req.body.review)
+    console.log(newReview)
+
+   
+    await newReview.save();
+ list.reviews.push(newReview._id)
+     // ✅ push after saving
+    await list.save();
+
+    res.redirect(`/listings/${list._id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
+  }
+});
+///delete route
+
+
+app.delete("/listings/:id/reviews/:reviewId", async (req, res) => {
+  try {
+    const { id, reviewId } = req.params;
+const reviewObjectId = new mongoose.Types.ObjectId(reviewId);
+        await Review.findByIdAndDelete(reviewObjectId );
+    await List.findByIdAndUpdate(id, {
+  $pull: { reviews: reviewObjectId  }
 });
 
-// Handle new listing submission
-app.post("/listings", Wrapasync(async (req, res) => {
-  const { title, description, image, price, location, country } = req.body;
-  const newListing = new List({
-    title,
-    description,
-    image: { url: image },
-    price,
-    location,
-    country,
-  });
-  await newListing.save();
-  res.redirect("/listings");
-}));
 
-// Edit form
-app.get("/listings/:id/edit", Wrapasync(async (req, res) => {
-  const { id } = req.params;
-  const list = await List.findById(id);
-  if (!list) throw new ExpressError(404, "Listing not found");
-  res.render("listings/edit", { list });
-}));
 
-// Update listing
-app.put("/listings/:id", Wrapasync(async (req, res) => {
-  const { id } = req.params;
-  const { title, description, image, price, location, country } = req.body;
+    res.redirect(`/listings/${id}`);
+  } catch (err) {
+    console.error("Error deleting review:", err);
+    res.status(500).send("Something went wrong while deleting the review.");
+  }
+});
 
-  const updatedList = await List.findByIdAndUpdate(
-    id,
-    { title, description, image: { url: image }, price, location, country },
-    { new: true, runValidators: true }
-  );
 
-  if (!updatedList) throw new ExpressError(404, "Listing not found");
-  res.redirect("/listings");
-}));
 
-// Show single listing
-app.get("/listings/:id", Wrapasync(async (req, res) => {
-  const { id } = req.params;
-  const singleItem = await List.findById(id);
-  if (!singleItem) throw new ExpressError(404, "Listing not found");
-  res.render("listings/singlelist", { singleItem });
-}));
 
-// Delete listing
-app.delete("/listings/:id", Wrapasync(async (req, res) => {
-  const { id } = req.params;
-  const deletedItem = await List.findByIdAndDelete(id);
-  if (!deletedItem) throw new ExpressError(404, "Listing not found");
-  res.redirect("/listings");
-}));
 
 // ---------------- ERROR HANDLING ----------------
 
 // Catch-all for non-existing routes
 // Catch-all for unmatched routes
-app.use((req, res, next) => {
-  next(new ExpressError(404, "Page not found"));
-});
+// app.use((req, res, next) => {
+//   next(new ExpressError(404, "Page not found"));
+// });
 
 
 // Centralized error handler
+// Centralized error handler
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Something went wrong" ,ExpressError} = err;
-res.render("error.ejs",{status,message,err})
+  const { status = 500, message = "Something went wrong" } = err;
+  // res.status(status).render("error", { status, message, err });
+  next(err)
 });
+
 
 // ---------------- START SERVER ----------------
 app.listen(3000, () => {

@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
-const listingSchema = new mongoose.Schema(
+
+let Schema=mongoose.Schema
+const listingSchema = new Schema(
   {
     title: {
       type: String,
@@ -18,16 +20,20 @@ const listingSchema = new mongoose.Schema(
     },
       price: {
       type: Number,
-      maxLength: 50,
+   min:0,
       required: true,
     },  country: {
       type: String,
       
       required: true,
     },
+    reviews:[{
+      type:Schema.Types.ObjectId,
+      ref:"Review"
+    }]
   },
   { timestamps: { createdAt: "created_at", updatedAt: false } }
 );
 
-const List = mongoose.model("List", listingSchema);
-export default List;
+export default mongoose.model("List", listingSchema);
+
