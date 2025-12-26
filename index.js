@@ -1,21 +1,52 @@
 import express from "express";
 import mongoose from "mongoose";
+import User from "./models/user.js"
 import List from "./models/listing.js";
 import Review from "./models/review.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import methodOverride from "method-override";
 import ejsMate from "ejs-mate";
+import flash from "connect-flash"
+ import session from "express-session"
+ import passport from "passport"
+ import LocalStrategy from "passport-local"
 import Wrapasync from "./utils/Wrapasync.js";
 import ExpressError from "./utils/Expresserror.js";
 // import listingSchema from "./models/listing.js"
 // import {listjoiSchema} from "./schema.js";
 // import {reviewjoiSchema}  from  "./schema.js"
 import listRoutes from "./routes/listing.js"
+import userRoutes from "./routes/userRouter.js"
 const app = express();
-//app.use("/listings/:id/reviews", reviewRoutes);  
- app.use("/listings", listRoutes);
+ let sessionoption={
+  secret:"ankitkal",
+  resave:false,
+  saveUninitialized: true
+}
+app.use(flash())
+app.use(session(sessionoption))
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+// //app.use("/listings/:id/reviews", reviewRoutes); 
+app.use((req,res,next)=>{
+  res.locals.listingmsg=req.flash("success")
+    res.locals.errormsg=req.flash("error")
 
+  next()
+}) 
+//demouser
+app.get("/demouser",async (req,res)=>{
+  let fakeUser=new User({
+    email:"ankit@gmail.com",
+    username:"ankitfgjrgo"
+  })
+ let registeruser= await User.register(fakeUser,"ankitkalbhor")
+  res.send(`registered user ${registeruser}`)
+})
 // Path setup
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,10 +57,16 @@ app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
 
 // Middleware
-app.use(methodOverride("_method"));
+
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride("_method"));
+
+app.use("/listings", listRoutes);
+app.use("/",userRoutes)
+
+
 
 
 // Connect to MongoDB
@@ -41,6 +78,8 @@ main()
   .catch((error) => console.error("❌ DB connection error:", error));
 
 // ---------------- ROUTES ----------------
+//session
+
 
 // Root route
 app.get("/", (req, res) => {
@@ -129,18 +168,14 @@ const reviewObjectId = new mongoose.Types.ObjectId(reviewId);
 // ---------------- ERROR HANDLING ----------------
 
 // Catch-all for non-existing routes
-// Catch-all for unmatched routes
-// app.use((req, res, next) => {
-//   next(new ExpressError(404, "Page not found"));
-// });
+app.use((req, res, next) => {
+  next(new ExpressError(404, "Page not found"));
+});
 
-
-// Centralized error handler
 // Centralized error handler
 app.use((err, req, res, next) => {
   const { status = 500, message = "Something went wrong" } = err;
-  // res.status(status).render("error", { status, message, err });
-  next(err)
+  res.status(status).render("error", { status, message, err });
 });
 
 

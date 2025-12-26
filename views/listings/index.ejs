@@ -9,8 +9,12 @@
 </head>
 <body>
   <% layout("/layouts/boilerplate.ejs")%>
-  <h1>All Listings</h1>
   
+  <h1>All Listings</h1>
+  <%- include("../includes/success.ejs")%>
+    <%- include("../includes/errorflash.ejs")%>
+
+
   <div class="listing-container">
 
 
