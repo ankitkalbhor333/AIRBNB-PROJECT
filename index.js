@@ -1,13 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
 console.log("dotenv loaded at top");
-
 import express from "express";
-
 import mongoose from "mongoose";
 import User from "./models/user.js"
-import List from "./models/listing.js";
-import Review from "./models/review.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import methodOverride from "method-override";
@@ -26,18 +22,18 @@ import listRoutes from "./routes/listing.js"
 import userRoutes from "./routes/userRouter.js"
 import reviewRoutes from "./routes/review.js"
 const app = express();
-
+let mongourl=process.env.MOONGO_URL;
 
 const store=MongoStore.create({
-  mongoUrl:"mongodb+srv://ankitkal2005:gE6m0NGGQ9TFUJZK@cluster0.7ifwzv8.mongodb.net/?appName=Cluster0",
+  mongoUrl:mongourl,
   crypto:{
-    secret:"ankitkalbhor"
+    secret:process.env.SECRET_KEY
   },
   touchAfter:24*3600,
 })
  let sessionoption={
   store,
-  secret:"ankitkalbhor",
+  secret:process.env.SECRET_KEY,
   resave:false,
   saveUninitialized: true,
   cookie:{
@@ -94,7 +90,7 @@ app.use("/listings/:id/reviews", reviewRoutes);
 
 // Connect to MongoDB
 async function main() {
-  await mongoose.connect("mongodb+srv://ankitkal2005:gE6m0NGGQ9TFUJZK@cluster0.7ifwzv8.mongodb.net/?appName=Cluster0");
+  await mongoose.connect(mongourl);
 }
 main()
   .then(() => console.log("✅ Connected to MongoDB"))

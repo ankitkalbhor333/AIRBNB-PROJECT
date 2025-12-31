@@ -18,18 +18,18 @@ h1 {
   margin-top: 5vh;
   text-align: center;
   margin-bottom: 30px;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem); /* responsive scaling */
   color: #913838ff;
 }
 
 /* Container for Listings */
 .listing-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Always 4 columns */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* responsive grid */
   gap: 20px;
-  width: 100%;   /* Full width */
-  margin: 10px;     /* Remove margins */
-  padding: 0;    /* Remove padding */
+  width: 100%;
+  margin: 10px;
+  padding: 0;
 }
 
 /* Card Styling */
@@ -39,8 +39,7 @@ h1 {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-bottom:10vh;
-  margin-left:10px;
+  margin-bottom: 5vh;
 }
 
 .card:hover {
@@ -62,7 +61,7 @@ h1 {
 
 /* Card Title */
 .card-title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-bottom: 10px;
   color: #0077cc;
 }
@@ -93,4 +92,29 @@ h1 {
 .card-date {
   font-size: 0.8rem;
   color: #888;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 992px) {
+  .listing-container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .card-img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-img {
+    height: 150px;
+  }
 }

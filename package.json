@@ -1,4 +1,7 @@
 {
+  "engine":{
+"node":"v24.2.0"
+  },
   "name": "airbub",
   "version": "1.0.0",
   "description": "",

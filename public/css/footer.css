@@ -1,14 +1,14 @@
-/* footer.css */
-
+/* Footer Base */
 .footer {
   position: fixed;
-  bottom: 0;              /* corrected: must use units, 0 keeps it flush at bottom */
+  bottom: 0;
   left: 0;
   width: 100%;
   z-index: 999;
 
-  background: rgba(33, 37, 41, 0.85); /* slightly stronger dark transparent */
+  background: rgba(33, 37, 41, 0.85); /* dark transparent */
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
   color: #f8f9fa;
   text-align: center;
   padding: 12px 0;
@@ -16,17 +16,24 @@
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
 
+/* Container */
 .footer .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Paragraph */
 .footer p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem); /* responsive scaling */
 }
 
+/* Links */
 .footer a {
   color: #00d4ff;
   margin: 0 12px;
@@ -39,13 +46,44 @@
   color: #fff;
 }
 
+/* Icons */
 .footer i {
   margin-right: 6px;
 }
 
+/* Small text */
 .footer small {
   display: block;
   margin-top: 6px;
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 1.8vw, 0.8rem);
   color: #ccc;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer a {
+    display: inline-block;
+    margin: 8px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 10px 0;
+  }
+
+  .footer a {
+    margin: 6px;
+    font-size: 0.85rem;
+  }
+
+  .footer small {
+    font-size: 0.7rem;
+  }
 }

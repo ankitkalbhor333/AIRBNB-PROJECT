@@ -11,31 +11,27 @@ body {
   background-color: #f9f9f9;
   color: #333;
   line-height: 1.6;
-  margin:100px
+  margin: 100px;
 }
 
 /* Page Title */
 h1 {
-  margin-top:10vh;
+  margin-top: 10vh;
   text-align: center;
   margin-bottom: 30px;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem); /* responsive scaling */
   color: #913838ff;
 }
 
 /* Container for Listings */
-
-/* Container for Listings */
 .listing-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Always 4 columns */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* responsive grid */
   gap: 20px;
-  width: 100%; /* Full screen width */
-  margin: 0;   /* Remove left/right margin */
+  width: 100%;
+  margin: 0;
   padding: 0;
-   /* Ensure no padding */
 }
-
 
 /* Card Styling */
 .card {
@@ -49,8 +45,8 @@ h1 {
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  opacity:0.9;
-  background-color:white;
+  opacity: 0.9;
+  background-color: white;
 }
 
 /* Card Image */
@@ -99,15 +95,13 @@ h1 {
   font-size: 0.8rem;
   color: #888;
 }
-.label{
-  color:black;
-  font-size:3rem;
+
+.label {
+  color: black;
+  font-size: 3rem;
 }
 
-///reviews style
-
-
-/* Container */
+/* Reviews Section */
 .reviews-section {
   margin: 24px 0;
 }
@@ -125,7 +119,7 @@ h1 {
   gap: 16px;
 }
 
-/* Card */
+/* Review Card */
 .review-card {
   background: #fff;
   border: 1px solid #eee;
@@ -213,7 +207,7 @@ h1 {
   font-style: italic;
 }
 
-/* Dark mode tweak (optional) */
+/* Dark mode tweak */
 @media (prefers-color-scheme: dark) {
   .review-card {
     background: #1c1c1c;
@@ -223,18 +217,51 @@ h1 {
   .meta .name, .comment { color: #eee; }
   .date, .rating-number { color: #aaa; }
 }
-.btn-container{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:25px;
-  margin-top:0%
-  
+
+/* Buttons */
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 0%;
 }
 
-.btn{
-  background-color:#1de96a;
-  margin:10px;
-  padding:10px;
-  
+.btn {
+  background-color: #1de96a;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #13c957;
+}
+
+/* Responsive tweaks */
+@media (max-width: 992px) {
+  body {
+    margin: 40px;
+  }
+  .listing-container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    margin: 20px;
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  .card-title {
+    font-size: 1.2rem;
+  }
+  .listing-container {
+    grid-template-columns: 1fr; /* single column on mobile */
+  }
 }

@@ -1,5 +1,3 @@
-/* edit.css */
-
 /* Reset some defaults */
 body {
   font-family: Arial, sans-serif;
@@ -14,11 +12,12 @@ h1 {
   text-align: center;
   margin-top: 20px;
   color: #2c3e50;
+  font-size: clamp(1.8rem, 4vw, 2.5rem); /* responsive scaling */
 }
 
 h2 {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   color: #555;
   margin-bottom: 30px;
 }
@@ -68,7 +67,45 @@ form button:hover {
   background: #2980b9;
 }
 
-img{
-  width:12vh;
-  opacity:02;
+/* Images */
+img {
+  width: clamp(80px, 12vh, 120px); /* responsive scaling */
+  opacity: 0.2; /* fixed invalid value */
+  display: block;
+  margin: 10px auto;
+  border-radius: 6px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  form {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 0.9rem;
+  }
+
+  form button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
 }

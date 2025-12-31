@@ -1,17 +1,21 @@
+/* Base styles */
 body {
   font-family: Arial, sans-serif;
   margin: 40px;
   background: #f9f9f9;
 }
 
+/* Heading */
 h1 {
- 
   color: #333;
   text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* responsive scaling */
 }
 
+/* Form container */
 form {
   max-width: 500px;
+  width: 100%;
   margin: auto;
   padding: 20px;
   background: #fff;
@@ -19,32 +23,41 @@ form {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* Labels */
 .label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
 }
 
-input, textarea, button {
+/* Inputs, textarea, button */
+input,
+textarea,
+button {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 1rem;
 }
 
+/* Button */
 button {
   background: #4CAF50;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
   margin-top: 15px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 button:hover {
   background: #45a049;
 }
 
+/* Success & failure messages */
 .success {
   color: green;
   font-weight: bold;
@@ -59,7 +72,43 @@ button:hover {
   margin-bottom: 15px;
 }
 
+/* Hidden utility */
 .hidden {
   /* display: none; */
-  margin-top:10vh;
+  margin-top: 10vh;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  body {
+    margin: 20px;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    margin: 10px;
+  }
+
+  form {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
 }
