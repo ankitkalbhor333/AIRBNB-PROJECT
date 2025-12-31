@@ -1,22 +1,30 @@
 import express from "express";
 
 
+import { saveRedirectUrl } from "../middleware.js"
 
-import User from "../models/user.js";
+import passport from "passport";
+import userscontroller from "../controllers/user.js"
 
 const router = express.Router();
-router.get("/signup", async (req, res) => {
-     res.render("users/signup.ejs")
-});
+router.get("/signup", userscontroller.renderSignup);
+
+router.post("/signup",userscontroller.Signup)
 
 
-router.post("/signup",async (req,res)=>{
-  let {username,email,password}=req.body
-  const newUser=new User({email,username})
-  const registeruser=await User.register(newUser,password)
-  console.log(registeruser)
-  req.flash("success","welocme to my website ")
-  res.redirect("/listings")
-})
+
+router.get("/login",userscontroller.renderloginfrom)
+
+router.post("/login",saveRedirectUrl,
+  passport.authenticate("local",{failureRedirect:"/login",
+  failureFlash:true,
+  }),userscontroller.Login) 
+
+router.get("/logout",userscontroller.Logout)
+
+
+
+
+
 
 export default router;

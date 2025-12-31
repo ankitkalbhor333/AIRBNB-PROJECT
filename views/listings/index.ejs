@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Listings</title>
-  <link rel="stylesheet" href="/css/style.css"> <!-- link to your CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+   <!-- link to your CSS -->
 </head>
 <body>
   <% layout("/layouts/boilerplate.ejs")%>
@@ -27,15 +28,17 @@
           <p class="card-location">📍 <%= listing.location %>, <%= listing.country %></p>
           <p class="card-price">💰 &#8377;<%= listing.price.toLocaleString("en-IN") %></p>
           <small class="card-date">Created: <%= listing.created_at.toDateString() %></small>
-            <form action="listings/<%=listing._id%>"  method="GET">
-            <button>view</button>
+          <div class="btn-container">
+              <form action="listings/<%=listing._id%>"  method="GET">
+            <button class="btn">view</button>
           </form>
           <form action="listings/<%=listing._id%>/edit" method="GET">
-            <button>edit</button>
+            <button class="btn">edit</button>
           </form>
            <form action="listings/<%=listing._id%>?_method=DELETE" method="POST">
-            <button>delete</button>
+            <button class="btn">delete</button>
           </form>
+          </div>
         </div>
       </div>
     <% }) %>

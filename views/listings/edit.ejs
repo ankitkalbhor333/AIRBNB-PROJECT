@@ -4,17 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="/css/edit.css">
 </head>
 <body>
   <h1>edit the message</h1>
   <h2>edit listing:<%list._id%></h2>
-<form action="/listings/<%= list._id %>?_method=PUT" method="POST">
-  <input type="text" name="title" value="<%= list.title %>">
-  <input type="text" name="description" value="<%= list.description %>">
-  <input type="text" name="image" value="<%= list.image.url %>">
-  <input type="text" name="price" value="<%= list.price %>">
-  <input type="text" name="location" value="<%= list.location %>">
-  <input type="text" name="country" value="<%= list.country %>">
+<form action="/listings/<%= list._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+  <div>  <input type="text" name="title" value="<%= list.title %>">
+</div>
+<div>  <input type="text" name="description" value="<%= list.description %>">
+</div> 
+<div>
+  preview image
+  <img src="<%=originalImage%>" alt="">
+</div>
+ <div><label for="image">upload new image</label>
+  <input type="file" name="image" /></div>
+  <div><input type="text" name="price" value="<%= list.price %>"/></div>
+<div>  
+  <input type="text" name="location" value="<%= list.location %>"/></div>
+ <div> <input type="text" name="country" value="<%= list.country %>"/></div>
   <button type="submit">Update</button>
 </form>
 

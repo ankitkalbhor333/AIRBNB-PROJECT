@@ -1,89 +1,32 @@
 import express from "express";
-import List from "../models/listing.js";
-import ExpressError from "../utils/Expresserror.js";
-
+import {isLoggedIn,isOwner} from "../middleware.js";
+import listingcontroller from "../controllers/listings.js"
+import multer from "multer"
+import {storage} from "../cloudConfig.js"
 const router = express.Router();
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "ejs");
-// app.use(methodOverride("_method"));
-// Show all listings
-router.get("/", async (req, res) => {
-  const allisting = await List.find({});
-  
-  res.render("listings", { allisting });
-});
+
+const uploads=multer({storage})
+
+//render all list
+router.get("/", listingcontroller.index);
 
 // Create new listing form
-router.get("/addnew", (req, res) => {
-  res.render("listings/listnewItem");
-});
+router.get("/addnew",isLoggedIn,listingcontroller.listingform );
 
 // Handle new listing submission
-router.post("/", async (req, res) => {
-  console.log(req.body)
-  const { title, description, image, price, location, country } = req.body;
-  const newListing = new List({
-    title,
-    description,
-    image: { url: image },
-    price,
-    location,
-    country,
-  });
-
-  await newListing.save();
-  req.flash("success","new listing created")
-  res.redirect("/listings");
-});
+router.post("/"  , isLoggedIn,uploads.single("image"),listingcontroller.newListpost  
+);
 
 // Edit form
-router.get("/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const list = await List.findById(id);
-  if (!list) throw new ExpressError(404, "Listing not found");
-   
-
-  res.render("listings/edit", { list });
-});
+router.get("/:id/edit",isLoggedIn,isOwner,listingcontroller.editForm  );
 
 // Update listing
-router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { title, description, image, price, location, country } = req.body;
-
-  const updatedList = await List.findByIdAndUpdate(
-    id,
-    { title, description, image: { url: image }, price, location, country },
-    { new: true, runValidators: true }
-  );
-
-  if (!updatedList) throw new ExpressError(404, "Listing not found");
-
-    req.flash("success"," listing edited ")
-  res.redirect("/listings");
-});
+router.put("/:id",isLoggedIn,isOwner, uploads.single("image"),listingcontroller.updateListing );
 
 // Show single listing
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const singleitems = await List.findById(id).populate("reviews");
-  if(!singleitems){
-      req.flash("error","this listing is not avail")
-    res.redirect("/listings")
-  }
-  if (!singleitems) throw new ExpressError(404, "Listing not found");
-  res.render("listings/singlelist", { singleitems });
-});
+router.get("/:id",isLoggedIn, listingcontroller.viewsingleList );
 
 // Delete listing
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-  const deletedItem = await List.findByIdAndDelete(id);
-  if (!deletedItem) throw new ExpressError(404, "Listing not found");
-  req.flash("success","listing deleted")
-  res.redirect("/listings");
-});
+router.delete("/:id",isLoggedIn, isOwner,listingcontroller.deleteitems );
 
 export default router;

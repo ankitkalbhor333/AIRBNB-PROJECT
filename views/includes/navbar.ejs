@@ -1,53 +1,64 @@
 <link rel="stylesheet" href="/css/navbar.css">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <!-- Brand -->
-    <a class="navbar-brand" href="/">Airbub</a>
 
+    <!-- Brand -->
+   <a class="navbar-brand" id="airbnb" href="/listings">  <img  class="circle-img" width="100px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSicMDzk5BVKCMaspR4wow1fC8Kt9fDI-ACBg&s" alt="airbnb"   ></a>
+  
     <!-- Mobile toggle -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Navbar links -->
+    <!-- Nav Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
 
-        <!-- All Listings -->
         <li class="nav-item">
-          <a class="nav-link" href="/listings">
-            <i class="fas fa-list"></i> All Listings
-          </a>
+          <a class="nav-link" href="/listings">All Listings</a>
         </li>
 
-        <!-- Add New Listing -->
         <li class="nav-item">
-          <a class="nav-link" href="/listings/addnew">
-            <i class="fas fa-plus-circle"></i> Add New Listing
-          </a>
+          <a class="nav-link" href="/listings/addnew">Add Listing</a>
         </li>
 
       </ul>
 
-      <!-- Optional search form -->
-      <form class="d-flex ms-3" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search listings" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <!-- Search -->
+      <div class="searchbox">
+        <form class="d-flex ms-lg-3 mt-2 mt-lg-0" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search listings"
+        />
+        <button class="btn btn-outline-success" type="submit">
+          Search
+        </button>
       </form>
+      </div>
+
+      <!-- Auth Links -->
+      <div class="auth-links ms-lg-3 mt-3 mt-lg-0">
+        <% if (!currUser) { %>
+          <a href="/signup" class="auth-link">Sign up</a>
+          <a href="/login" class="auth-link">Log in</a>
+        <% } else { %>
+          <a href="/logout" class="auth-link">Logout</a>
+        <% } %>
+      </div>
     </div>
+
   </div>
 </nav>
 
-<script>
-  // Add "scrolled" class when page scrolls
-  window.addEventListener("scroll", function () {
-    const navbar = document.querySelector(".navbar");
-    if (window.scrollY > 50) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
-  });
-</script>
+<script src="/js/navbar.js"></script>

@@ -1,4 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config();
+console.log("dotenv loaded at top");
+
 import express from "express";
+
 import mongoose from "mongoose";
 import User from "./models/user.js"
 import List from "./models/listing.js";
@@ -11,13 +16,14 @@ import flash from "connect-flash"
  import session from "express-session"
  import passport from "passport"
  import LocalStrategy from "passport-local"
-import Wrapasync from "./utils/Wrapasync.js";
+// import Wrapasync from "./utils/Wrapasync.js";
 import ExpressError from "./utils/Expresserror.js";
 // import listingSchema from "./models/listing.js"
 // import {listjoiSchema} from "./schema.js";
 // import {reviewjoiSchema}  from  "./schema.js"
 import listRoutes from "./routes/listing.js"
 import userRoutes from "./routes/userRouter.js"
+import reviewRoutes from "./routes/review.js"
 const app = express();
  let sessionoption={
   secret:"ankitkal",
@@ -35,16 +41,16 @@ passport.deserializeUser(User.deserializeUser())
 app.use((req,res,next)=>{
   res.locals.listingmsg=req.flash("success")
     res.locals.errormsg=req.flash("error")
-
+res.locals.currUser=req.user;
   next()
 }) 
 //demouser
 app.get("/demouser",async (req,res)=>{
   let fakeUser=new User({
-    email:"ankit@gmail.com",
-    username:"ankitfgjrgo"
+    email:"piyush@gmail.com",
+    username:"piyush"
   })
- let registeruser= await User.register(fakeUser,"ankitkalbhor")
+ let registeruser= await User.register(fakeUser,"piyush123")
   res.send(`registered user ${registeruser}`)
 })
 // Path setup
@@ -65,13 +71,14 @@ app.use(methodOverride("_method"));
 
 app.use("/listings", listRoutes);
 app.use("/",userRoutes)
+app.use("/listings/:id/reviews", reviewRoutes);
 
 
 
 
 // Connect to MongoDB
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/Airbnb");
+  await mongoose.connect("mongodb+srv://ankitkal2005:gE6m0NGGQ9TFUJZK@cluster0.7ifwzv8.mongodb.net/?appName=Cluster0");
 }
 main()
   .then(() => console.log("✅ Connected to MongoDB"))
@@ -81,10 +88,6 @@ main()
 //session
 
 
-// Root route
-app.get("/", (req, res) => {
-  res.send("Root is working");
-});
 
 
 
@@ -116,50 +119,10 @@ app.get("/", (req, res) => {
 
 
 
-//review post rewquest handling
-app.post("/listings/:id/reviews", async (req, res) => {
-  try {
-    const list = await List.findById(req.params.id); // ✅ use req.params.id
-    if (!list) {
-      return res.status(404).send("Listing not found");
-    }
-
-    const newReview = new Review(req.body.review);
-    console.log(req.body.review)
-    console.log(newReview)
-
-   
-    await newReview.save();
- list.reviews.push(newReview._id)
-     // ✅ push after saving
-    await list.save();
-
-    res.redirect(`/listings/${list._id}`);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Something went wrong");
-  }
-});
 ///delete route
 
 
-app.delete("/listings/:id/reviews/:reviewId", async (req, res) => {
-  try {
-    const { id, reviewId } = req.params;
-const reviewObjectId = new mongoose.Types.ObjectId(reviewId);
-        await Review.findByIdAndDelete(reviewObjectId );
-    await List.findByIdAndUpdate(id, {
-  $pull: { reviews: reviewObjectId  }
-});
 
-
-
-    res.redirect(`/listings/${id}`);
-  } catch (err) {
-    console.error("Error deleting review:", err);
-    res.status(500).send("Something went wrong while deleting the review.");
-  }
-});
 
 
 

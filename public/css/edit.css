@@ -1,0 +1,74 @@
+/* edit.css */
+
+/* Reset some defaults */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Page heading */
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  color: #2c3e50;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Form container */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Input fields */
+form input[type="text"],
+form input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="file"]:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Submit button */
+form button {
+  width: 100%;
+  padding: 12px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: #2980b9;
+}
+
+img{
+  width:12vh;
+  opacity:02;
+}
