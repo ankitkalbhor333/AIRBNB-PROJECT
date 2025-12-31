@@ -14,6 +14,7 @@ import methodOverride from "method-override";
 import ejsMate from "ejs-mate";
 import flash from "connect-flash"
  import session from "express-session"
+ import MongoStore from "connect-mongo";
  import passport from "passport"
  import LocalStrategy from "passport-local"
 // import Wrapasync from "./utils/Wrapasync.js";
@@ -25,10 +26,25 @@ import listRoutes from "./routes/listing.js"
 import userRoutes from "./routes/userRouter.js"
 import reviewRoutes from "./routes/review.js"
 const app = express();
+
+
+const store=MongoStore.create({
+  mongoUrl:"mongodb+srv://ankitkal2005:gE6m0NGGQ9TFUJZK@cluster0.7ifwzv8.mongodb.net/?appName=Cluster0",
+  crypto:{
+    secret:"ankitkalbhor"
+  },
+  touchAfter:24*3600,
+})
  let sessionoption={
-  secret:"ankitkal",
+  store,
+  secret:"ankitkalbhor",
   resave:false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie:{
+    expires:Date.now()+7*24*60*60*100,
+    maxAge:7*24*60*60*1000,
+    httpOnly:true, 
+  }
 }
 app.use(flash())
 app.use(session(sessionoption))
