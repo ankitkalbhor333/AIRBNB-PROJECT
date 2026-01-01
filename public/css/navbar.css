@@ -79,6 +79,7 @@
   .navbar {
     flex-direction: column;
     height: auto;
+    max-height:5vh;
     padding: 1rem;
   }
 
